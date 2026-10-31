@@ -22,6 +22,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from html.parser import HTMLParser
@@ -200,23 +201,37 @@ def resolve(provider: str, base_url: str | None, key_env: str | None):
     return kind, (base_url or url).rstrip("/"), (key_env or env)
 
 
-def http_post(url: str, headers: dict, body: bytes, timeout: float) -> tuple[int, bytes]:
+def http_post(url: str, headers: dict, body: bytes, timeout: float,
+              max_retries: int = 5, base_delay: float = 2.0) -> tuple[int, bytes]:
     req = urllib.request.Request(url, data=body, headers=headers, method="POST")
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return resp.status, resp.read()
-    except urllib.error.HTTPError as e:
-        return e.code, e.read()
-    except TimeoutError as e:
-        raise ApiError(f"timeout after {timeout:.0f}s") from e
-    except ValueError:  # e.g. invalid header value; never show the exception text (it may hold the key)
-        raise ApiError("request could not be built (invalid header or URL)") from None
-    except urllib.error.URLError as e:
-        if isinstance(e.reason, TimeoutError):
+    delay = base_delay
+    for attempt in range(max_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.status, resp.read()
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < max_retries:
+                retry_after = e.headers.get("Retry-After")
+                if retry_after and retry_after.isdigit():
+                    wait = int(retry_after)
+                else:
+                    wait = delay
+                print(f"  429 rate limited; waiting {wait}s (attempt {attempt+1}/{max_retries})", file=sys.stderr)
+                time.sleep(wait)
+                delay *= 2
+                continue
+            return e.code, e.read()
+        except TimeoutError as e:
             raise ApiError(f"timeout after {timeout:.0f}s") from e
-        raise ApiError(f"connection failed: {e.reason}") from e
-    except OSError as e:
-        raise ApiError(f"connection failed: {type(e).__name__}") from None
+        except ValueError:  # e.g. invalid header value; never show the exception text (it may hold the key)
+            raise ApiError("request could not be built (invalid header or URL)") from None
+        except urllib.error.URLError as e:
+            if isinstance(e.reason, TimeoutError):
+                raise ApiError(f"timeout after {timeout:.0f}s") from e
+            raise ApiError(f"connection failed: {e.reason}") from e
+        except OSError as e:
+            raise ApiError(f"connection failed: {type(e).__name__}") from None
+    raise ApiError(f"max retries ({max_retries}) exceeded for 429")
 
 
 def build_request(kind: str, base: str, key: str | None, model: str, message: str, max_tokens: int,

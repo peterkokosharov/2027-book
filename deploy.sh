@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 # One-shot deploy for 2027-book
 # Reads token from ~/github_token, prompts if missing
+# Builds HTML + EPUB before pushing
 
 set -eu
 
@@ -11,6 +12,10 @@ GH_REPO="2027-book"
 TOKEN_FILE="$HOME/github_token"
 
 cd "$REPO_DIR"
+
+# Build HTML + EPUB
+echo "Building HTML + EPUB..."
+python3 -I tools/build_en.py
 
 # Read token from file or prompt
 if [ -f "$TOKEN_FILE" ] && [ -r "$TOKEN_FILE" ]; then
