@@ -5,6 +5,8 @@
 
 © 2026 Peter Kokosharov. Licensed under CC BY-NC-SA 4.0.
 
+**Read online:** [English](https://peterkokosharov.github.io/2027-book/) · [Български](https://peterkokosharov.github.io/2027-book/index.bg.html)
+
 ## Read it
 
 The book is in the `source/` folder, split by acts:

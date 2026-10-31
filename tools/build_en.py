@@ -152,6 +152,8 @@ def strip_comments(md: str) -> str:
 def load_chapters(src: Path):
     chapters = []
     for f in sorted(src.glob("[0-9]*.md")):
+        if "-bg-" in f.name:
+            continue
         md = strip_comments(f.read_text(encoding="utf-8"))
         body, head = convert(md)
         chapters.append({"id": f.stem, "title": head or f.stem, "body": body, "md": md,
