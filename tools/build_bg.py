@@ -49,6 +49,25 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: .9em; }
 .titlepage { text-align: center; margin: 3em 0; }
 nav ol { list-style: none; padding-left: 0; } nav li { margin: .3em 0; }
 section { margin-bottom: 3em; }
+
+/* Who is Who — two column layout on title page */
+#ch00 .titlepage h2 + p + ul,
+#ch00 .titlepage h2 + p + ul + p + ul {
+  display: inline-block;
+  width: 48%;
+  vertical-align: top;
+  margin: 0 1% 1em;
+  padding-left: 1.2em;
+}
+#ch00 .titlepage h2 + p { margin-bottom: .2em; }
+#ch00 .titlepage ul li { margin: .3em 0; line-height: 1.4; }
+@media (max-width: 600px) {
+  #ch00 .titlepage h2 + p + ul,
+  #ch00 .titlepage h2 + p + ul + p + ul {
+    display: block;
+    width: 100%;
+  }
+}
 """
 
 

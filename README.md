@@ -22,11 +22,7 @@ The book is in the `source/` folder, split by acts:
 
 **Bulgarian (author's translation):**
 - `00-bg-front.md` — front matter
-- `01-bg-act-1.md` — Действие I
-- `02-bg-act-2.md` — Действие II
-- `03-bg-act-3.md` — Действие III
-- `04-bg-act-4.md` — Действие IV
-- `05-bg-act-5.md` — Действие V
+- `01-bg-act-1.md` through `05-bg-act-5.md` — Acts I–V (Действие I–V)
 - `90-glossary.md` — glossary of terms, names, conventions
 
 ## Review it
