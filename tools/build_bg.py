@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Bulgarian reader edition of "Мирът на Ковача": one HTML page + a Kindle-ready EPUB 3.
+"""Build the Bulgarian reader edition of "Светът на Ковача": one HTML page + a Kindle-ready EPUB 3.
 
 Python 3.12 standard library only. Usage: python -I tools/build_bg.py [out_dir]
 Works from the repo (source/) and from a standalone copy (source/).

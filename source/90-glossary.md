@@ -4,7 +4,7 @@ Rules used: person names are transliterated; meaningful house/object names are t
 
 ## Title and structural terms
 
-- THE SMITH'S PEACE = Мирът на Ковача
+- THE SMITH'S PEACE = Светът на Ковача
 - Ledger (the narrator) = Летописът (chosen over Хрониката; used everywhere)
 - the Smith = Ковачът; the forge = ковачницата; metal = метал
 - the Patron = Покровителят; the Old King = Старият крал; the Emperor = Императорът

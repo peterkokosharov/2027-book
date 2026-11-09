@@ -1,12 +1,12 @@
 #!/bin/sh
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: CC-BY-NC-SA-4.0
 # One-shot deploy for 2027-book
 # Reads token from ~/github_token, prompts if missing
 # Builds EN + BG HTML + EPUB before pushing
 
 set -eu
 
-REPO_DIR="/home/petark/2027-repo"
+REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 GH_USER="peterkokosharov"
 GH_REPO="2027-book"
 TOKEN_FILE="$HOME/github_token"

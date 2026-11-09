@@ -152,7 +152,7 @@ def strip_comments(md: str) -> str:
 def load_chapters(src: Path):
     chapters = []
     for f in sorted(src.glob("[0-9]*.md")):
-        if "-bg-" in f.name:
+        if "-bg-" in f.name or f.name.startswith("90-"):
             continue
         md = strip_comments(f.read_text(encoding="utf-8"))
         body, head = convert(md)
@@ -265,6 +265,8 @@ def main():
     sdir.mkdir(exist_ok=True)
     if src.resolve() != sdir.resolve():
         for f in src.glob("[0-9]*.md"):
+            if "-bg-" in f.name or f.name.startswith("90-"):
+                continue
             (sdir / f.name).write_text(strip_comments(f.read_text(encoding="utf-8")),
                                        encoding="utf-8", newline="\n")
     print("chapters: %d, words: %d, out: %s" % (len(chapters), words(chapters), out))
